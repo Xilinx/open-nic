@@ -1,0 +1,10 @@
+# Ignore Vivado journal and log files
+vivado*.jou
+vivado*.log
+vivado*.str
+
+# Ignore .Xil directory
+.Xil
+
+# Ignore NFS temp files
+.nfs*
