@@ -20,10 +20,11 @@ interface qdma_c2h_if#(TDATA_W)(input aclk, input aresetn);
 
   logic                         tvalid;
   logic           [TDATA_W-1:0] tdata;
+  logic                  [31:0] tcrc;
   logic                         tlast;
-  logic       [(TDATA_W/8)-1:0] dpar;
   logic                         ctrl_marker;
   logic                   [2:0] ctrl_port_id;
+  logic                   [6:0] ctrl_ecc;
   logic                  [15:0] ctrl_len;
   logic                  [10:0] ctrl_qid;
   logic                         ctrl_has_cmpt;

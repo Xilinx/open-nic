@@ -30,6 +30,7 @@ interface qdma_cpl_if(input aclk, input aresetn);
   logic         ctrl_user_trig;
   logic   [2:0] ctrl_col_idx;
   logic   [2:0] ctrl_err_idx;
+  logic         ctrl_no_wrb_marker;
   logic         tready;
 
 endinterface: qdma_cpl_if

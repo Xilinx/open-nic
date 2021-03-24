@@ -37,8 +37,8 @@ class qdma_h2c_master_driver#(TDATA_W) extends uvm_driver#(qdma_h2c_transaction)
     @(posedge _if.aclk iff ~_if.aresetn);
     _if.tvalid          <= 1'b0;
     _if.tdata           <= 0;
+    _if.tcrc            <= 0;
     _if.tlast           <= 1'b0;
-    _if.dpar            <= 0;
     _if.tuser_qid       <= 0;
     _if.tuser_port_id   <= 0;
     _if.tuser_err       <= 1'b0;
@@ -77,12 +77,9 @@ class qdma_h2c_master_driver#(TDATA_W) extends uvm_driver#(qdma_h2c_transaction)
       bit has_more = item.do_stream_out(index, TDATA_W, tdata, mty);
 
       _if.tdata     <= {<<8{tdata}};
+      _if.tcrc      <= 0;
       _if.tlast     <= ~has_more;
       _if.tuser_mty <= mty;
-
-      for (int i = 0; i < (TDATA_W / 8); i++) begin
-        _if.dpar[i] <= ~(^tdata[i]);
-      end
 
       @(posedge _if.aclk iff _if.tready);
 

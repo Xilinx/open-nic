@@ -20,7 +20,6 @@
 module box_322mhz #(
   parameter int MAX_PKT_LEN   = 1514,
   parameter int MIN_PKT_LEN   = 64,
-  parameter int USE_CMAC_PORT = 1,
   parameter int NUM_CMAC_PORT = 1
 ) (
   input                          s_axil_awvalid,
@@ -40,31 +39,31 @@ module box_322mhz #(
   output                   [1:0] s_axil_rresp,
   input                          s_axil_rready,
 
-  input      [NUM_CMAC_PORT-1:0] s_axis_adpt_tx_322mhz_tvalid,
-  input  [512*NUM_CMAC_PORT-1:0] s_axis_adpt_tx_322mhz_tdata,
-  input   [64*NUM_CMAC_PORT-1:0] s_axis_adpt_tx_322mhz_tkeep,
-  input      [NUM_CMAC_PORT-1:0] s_axis_adpt_tx_322mhz_tlast,
-  input      [NUM_CMAC_PORT-1:0] s_axis_adpt_tx_322mhz_tuser_err,
-  output     [NUM_CMAC_PORT-1:0] s_axis_adpt_tx_322mhz_tready,
+  input      [NUM_CMAC_PORT-1:0] s_axis_adap_tx_322mhz_tvalid,
+  input  [512*NUM_CMAC_PORT-1:0] s_axis_adap_tx_322mhz_tdata,
+  input   [64*NUM_CMAC_PORT-1:0] s_axis_adap_tx_322mhz_tkeep,
+  input      [NUM_CMAC_PORT-1:0] s_axis_adap_tx_322mhz_tlast,
+  input      [NUM_CMAC_PORT-1:0] s_axis_adap_tx_322mhz_tuser_err,
+  output     [NUM_CMAC_PORT-1:0] s_axis_adap_tx_322mhz_tready,
 
-  output     [NUM_CMAC_PORT-1:0] m_axis_adpt_rx_322mhz_tvalid,
-  output [512*NUM_CMAC_PORT-1:0] m_axis_adpt_rx_322mhz_tdata,
-  output  [64*NUM_CMAC_PORT-1:0] m_axis_adpt_rx_322mhz_tkeep,
-  output     [NUM_CMAC_PORT-1:0] m_axis_adpt_rx_322mhz_tlast,
-  output     [NUM_CMAC_PORT-1:0] m_axis_adpt_rx_322mhz_tuser_err,
+  output     [NUM_CMAC_PORT-1:0] m_axis_adap_rx_322mhz_tvalid,
+  output [512*NUM_CMAC_PORT-1:0] m_axis_adap_rx_322mhz_tdata,
+  output  [64*NUM_CMAC_PORT-1:0] m_axis_adap_rx_322mhz_tkeep,
+  output     [NUM_CMAC_PORT-1:0] m_axis_adap_rx_322mhz_tlast,
+  output     [NUM_CMAC_PORT-1:0] m_axis_adap_rx_322mhz_tuser_err,
 
-  output     [NUM_CMAC_PORT-1:0] m_axis_cmac_tx_322mhz_tvalid,
-  output [512*NUM_CMAC_PORT-1:0] m_axis_cmac_tx_322mhz_tdata,
-  output  [64*NUM_CMAC_PORT-1:0] m_axis_cmac_tx_322mhz_tkeep,
-  output     [NUM_CMAC_PORT-1:0] m_axis_cmac_tx_322mhz_tlast,
-  output     [NUM_CMAC_PORT-1:0] m_axis_cmac_tx_322mhz_tuser_err,
-  input      [NUM_CMAC_PORT-1:0] m_axis_cmac_tx_322mhz_tready,
+  output     [NUM_CMAC_PORT-1:0] m_axis_cmac_tx_tvalid,
+  output [512*NUM_CMAC_PORT-1:0] m_axis_cmac_tx_tdata,
+  output  [64*NUM_CMAC_PORT-1:0] m_axis_cmac_tx_tkeep,
+  output     [NUM_CMAC_PORT-1:0] m_axis_cmac_tx_tlast,
+  output     [NUM_CMAC_PORT-1:0] m_axis_cmac_tx_tuser_err,
+  input      [NUM_CMAC_PORT-1:0] m_axis_cmac_tx_tready,
 
-  input      [NUM_CMAC_PORT-1:0] s_axis_cmac_rx_322mhz_tvalid,
-  input  [512*NUM_CMAC_PORT-1:0] s_axis_cmac_rx_322mhz_tdata,
-  input   [64*NUM_CMAC_PORT-1:0] s_axis_cmac_rx_322mhz_tkeep,
-  input      [NUM_CMAC_PORT-1:0] s_axis_cmac_rx_322mhz_tlast,
-  input      [NUM_CMAC_PORT-1:0] s_axis_cmac_rx_322mhz_tuser_err,
+  input      [NUM_CMAC_PORT-1:0] s_axis_cmac_rx_tvalid,
+  input  [512*NUM_CMAC_PORT-1:0] s_axis_cmac_rx_tdata,
+  input   [64*NUM_CMAC_PORT-1:0] s_axis_cmac_rx_tkeep,
+  input      [NUM_CMAC_PORT-1:0] s_axis_cmac_rx_tlast,
+  input      [NUM_CMAC_PORT-1:0] s_axis_cmac_rx_tuser_err,
 
   // Reset pairs for modules in the box (synchronized to `axil_aclk`)
   input                    [7:0] mod_rstn,
@@ -81,11 +80,15 @@ module box_322mhz #(
 
   // Reset for box instance; do NOT touch
   wire internal_box_rstn;
-  box_322mhz_reset reset_inst (
+
+  generic_reset #(
+    .NUM_INPUT_CLK  (1),
+    .RESET_DURATION (100)
+  ) reset_inst (
     .mod_rstn     (box_rstn),
     .mod_rst_done (box_rst_done),
-    .box_rstn     (internal_box_rstn),
-    .axil_aclk    (axil_aclk)
+    .clk          (axil_aclk),
+    .rstn         (internal_box_rstn)
   );
 
   // Add reset pair signals for each user module and connect the reset pair to
@@ -218,31 +221,31 @@ module box_322mhz #(
     .s_axil_rresp                    (axil_pt_rresp),
     .s_axil_rready                   (axil_pt_rready),
 
-    .s_axis_adpt_tx_322mhz_tvalid    (s_axis_adpt_tx_322mhz_tvalid),
-    .s_axis_adpt_tx_322mhz_tdata     (s_axis_adpt_tx_322mhz_tdata),
-    .s_axis_adpt_tx_322mhz_tkeep     (s_axis_adpt_tx_322mhz_tkeep),
-    .s_axis_adpt_tx_322mhz_tlast     (s_axis_adpt_tx_322mhz_tlast),
-    .s_axis_adpt_tx_322mhz_tuser_err (s_axis_adpt_tx_322mhz_tuser_err),
-    .s_axis_adpt_tx_322mhz_tready    (s_axis_adpt_tx_322mhz_tready),
+    .s_axis_adap_tx_322mhz_tvalid    (s_axis_adap_tx_322mhz_tvalid),
+    .s_axis_adap_tx_322mhz_tdata     (s_axis_adap_tx_322mhz_tdata),
+    .s_axis_adap_tx_322mhz_tkeep     (s_axis_adap_tx_322mhz_tkeep),
+    .s_axis_adap_tx_322mhz_tlast     (s_axis_adap_tx_322mhz_tlast),
+    .s_axis_adap_tx_322mhz_tuser_err (s_axis_adap_tx_322mhz_tuser_err),
+    .s_axis_adap_tx_322mhz_tready    (s_axis_adap_tx_322mhz_tready),
 
-    .m_axis_adpt_rx_322mhz_tvalid    (m_axis_adpt_rx_322mhz_tvalid),
-    .m_axis_adpt_rx_322mhz_tdata     (m_axis_adpt_rx_322mhz_tdata),
-    .m_axis_adpt_rx_322mhz_tkeep     (m_axis_adpt_rx_322mhz_tkeep),
-    .m_axis_adpt_rx_322mhz_tlast     (m_axis_adpt_rx_322mhz_tlast),
-    .m_axis_adpt_rx_322mhz_tuser_err (m_axis_adpt_rx_322mhz_tuser_err),
+    .m_axis_adap_rx_322mhz_tvalid    (m_axis_adap_rx_322mhz_tvalid),
+    .m_axis_adap_rx_322mhz_tdata     (m_axis_adap_rx_322mhz_tdata),
+    .m_axis_adap_rx_322mhz_tkeep     (m_axis_adap_rx_322mhz_tkeep),
+    .m_axis_adap_rx_322mhz_tlast     (m_axis_adap_rx_322mhz_tlast),
+    .m_axis_adap_rx_322mhz_tuser_err (m_axis_adap_rx_322mhz_tuser_err),
 
-    .m_axis_cmac_tx_322mhz_tvalid    (m_axis_cmac_tx_322mhz_tvalid),
-    .m_axis_cmac_tx_322mhz_tdata     (m_axis_cmac_tx_322mhz_tdata),
-    .m_axis_cmac_tx_322mhz_tkeep     (m_axis_cmac_tx_322mhz_tkeep),
-    .m_axis_cmac_tx_322mhz_tlast     (m_axis_cmac_tx_322mhz_tlast),
-    .m_axis_cmac_tx_322mhz_tuser_err (m_axis_cmac_tx_322mhz_tuser_err),
-    .m_axis_cmac_tx_322mhz_tready    (m_axis_cmac_tx_322mhz_tready),
+    .m_axis_cmac_tx_tvalid           (m_axis_cmac_tx_tvalid),
+    .m_axis_cmac_tx_tdata            (m_axis_cmac_tx_tdata),
+    .m_axis_cmac_tx_tkeep            (m_axis_cmac_tx_tkeep),
+    .m_axis_cmac_tx_tlast            (m_axis_cmac_tx_tlast),
+    .m_axis_cmac_tx_tuser_err        (m_axis_cmac_tx_tuser_err),
+    .m_axis_cmac_tx_tready           (m_axis_cmac_tx_tready),
 
-    .s_axis_cmac_rx_322mhz_tvalid    (s_axis_cmac_rx_322mhz_tvalid),
-    .s_axis_cmac_rx_322mhz_tdata     (s_axis_cmac_rx_322mhz_tdata),
-    .s_axis_cmac_rx_322mhz_tkeep     (s_axis_cmac_rx_322mhz_tkeep),
-    .s_axis_cmac_rx_322mhz_tlast     (s_axis_cmac_rx_322mhz_tlast),
-    .s_axis_cmac_rx_322mhz_tuser_err (s_axis_cmac_rx_322mhz_tuser_err),
+    .s_axis_cmac_rx_tvalid           (s_axis_cmac_rx_tvalid),
+    .s_axis_cmac_rx_tdata            (s_axis_cmac_rx_tdata),
+    .s_axis_cmac_rx_tkeep            (s_axis_cmac_rx_tkeep),
+    .s_axis_cmac_rx_tlast            (s_axis_cmac_rx_tlast),
+    .s_axis_cmac_rx_tuser_err        (s_axis_cmac_rx_tuser_err),
 
     .mod_rstn                        (pt_rstn),
     .mod_rst_done                    (pt_rst_done),

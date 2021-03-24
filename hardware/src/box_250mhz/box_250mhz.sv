@@ -21,7 +21,6 @@ module box_250mhz #(
   parameter int MIN_PKT_LEN   = 64,
   parameter int USE_PHYS_FUNC = 1,
   parameter int NUM_PHYS_FUNC = 1,
-  parameter int USE_CMAC_PORT = 1,
   parameter int NUM_CMAC_PORT = 1
 ) (
   input                          s_axil_awvalid,
@@ -59,23 +58,23 @@ module box_250mhz #(
   output  [16*NUM_PHYS_FUNC-1:0] m_axis_qdma_c2h_tuser_dst,
   input      [NUM_PHYS_FUNC-1:0] m_axis_qdma_c2h_tready,
 
-  output     [NUM_CMAC_PORT-1:0] m_axis_tx_250mhz_tvalid,
-  output [512*NUM_CMAC_PORT-1:0] m_axis_tx_250mhz_tdata,
-  output  [64*NUM_CMAC_PORT-1:0] m_axis_tx_250mhz_tkeep,
-  output     [NUM_CMAC_PORT-1:0] m_axis_tx_250mhz_tlast,
-  output  [16*NUM_CMAC_PORT-1:0] m_axis_tx_250mhz_tuser_size,
-  output  [16*NUM_CMAC_PORT-1:0] m_axis_tx_250mhz_tuser_src,
-  output  [16*NUM_CMAC_PORT-1:0] m_axis_tx_250mhz_tuser_dst,
-  input      [NUM_CMAC_PORT-1:0] m_axis_tx_250mhz_tready,
+  output     [NUM_CMAC_PORT-1:0] m_axis_adap_tx_250mhz_tvalid,
+  output [512*NUM_CMAC_PORT-1:0] m_axis_adap_tx_250mhz_tdata,
+  output  [64*NUM_CMAC_PORT-1:0] m_axis_adap_tx_250mhz_tkeep,
+  output     [NUM_CMAC_PORT-1:0] m_axis_adap_tx_250mhz_tlast,
+  output  [16*NUM_CMAC_PORT-1:0] m_axis_adap_tx_250mhz_tuser_size,
+  output  [16*NUM_CMAC_PORT-1:0] m_axis_adap_tx_250mhz_tuser_src,
+  output  [16*NUM_CMAC_PORT-1:0] m_axis_adap_tx_250mhz_tuser_dst,
+  input      [NUM_CMAC_PORT-1:0] m_axis_adap_tx_250mhz_tready,
 
-  input      [NUM_CMAC_PORT-1:0] s_axis_rx_250mhz_tvalid,
-  input  [512*NUM_CMAC_PORT-1:0] s_axis_rx_250mhz_tdata,
-  input   [64*NUM_CMAC_PORT-1:0] s_axis_rx_250mhz_tkeep,
-  input      [NUM_CMAC_PORT-1:0] s_axis_rx_250mhz_tlast,
-  input   [16*NUM_CMAC_PORT-1:0] s_axis_rx_250mhz_tuser_size,
-  input   [16*NUM_CMAC_PORT-1:0] s_axis_rx_250mhz_tuser_src,
-  input   [16*NUM_CMAC_PORT-1:0] s_axis_rx_250mhz_tuser_dst,
-  output     [NUM_CMAC_PORT-1:0] s_axis_rx_250mhz_tready,
+  input      [NUM_CMAC_PORT-1:0] s_axis_adap_rx_250mhz_tvalid,
+  input  [512*NUM_CMAC_PORT-1:0] s_axis_adap_rx_250mhz_tdata,
+  input   [64*NUM_CMAC_PORT-1:0] s_axis_adap_rx_250mhz_tkeep,
+  input      [NUM_CMAC_PORT-1:0] s_axis_adap_rx_250mhz_tlast,
+  input   [16*NUM_CMAC_PORT-1:0] s_axis_adap_rx_250mhz_tuser_size,
+  input   [16*NUM_CMAC_PORT-1:0] s_axis_adap_rx_250mhz_tuser_src,
+  input   [16*NUM_CMAC_PORT-1:0] s_axis_adap_rx_250mhz_tuser_dst,
+  output     [NUM_CMAC_PORT-1:0] s_axis_adap_rx_250mhz_tready,
 
   input                   [15:0] mod_rstn,
   output                  [15:0] mod_rst_done,
@@ -89,11 +88,15 @@ module box_250mhz #(
 
   // Reset for user logic box instance; do NOT touch
   wire internal_box_rstn;
-  box_250mhz_reset reset_inst (
+
+  generic_reset #(
+    .NUM_INPUT_CLK  (1),
+    .RESET_DURATION (100)
+  ) reset_inst (
     .mod_rstn     (box_rstn),
     .mod_rst_done (box_rst_done),
-    .box_rstn     (internal_box_rstn),
-    .axil_aclk    (axil_aclk)
+    .clk          (axil_aclk),
+    .rstn         (internal_box_rstn)
   );
 
   // Add interface signals for each user module
@@ -211,14 +214,14 @@ module box_250mhz #(
     assign m_axis_qdma_c2h_tuser_dst  = 0;
 
     // Loopback the TX and RX interface
-    assign m_axis_tx_250mhz_tvalid     = s_axis_rx_250mhz_tvalid;
-    assign m_axis_tx_250mhz_tdata      = s_axis_rx_250mhz_tdata;
-    assign m_axis_tx_250mhz_tkeep      = s_axis_rx_250mhz_tkeep;
-    assign m_axis_tx_250mhz_tlast      = s_axis_rx_250mhz_tlast;
-    assign m_axis_tx_250mhz_tuser_size = s_axis_rx_250mhz_tuser_size;
-    assign m_axis_tx_250mhz_tuser_src  = s_axis_rx_250mhz_tuser_src;
-    assign m_axis_tx_250mhz_tuser_dst  = s_axis_rx_250mhz_tuser_dst;
-    assign s_axis_rx_250mhz_tready     = m_axis_tx_250mhz_tready;
+    assign m_axis_adap_tx_250mhz_tvalid     = s_axis_adap_rx_250mhz_tvalid;
+    assign m_axis_adap_tx_250mhz_tdata      = s_axis_adap_rx_250mhz_tdata;
+    assign m_axis_adap_tx_250mhz_tkeep      = s_axis_adap_rx_250mhz_tkeep;
+    assign m_axis_adap_tx_250mhz_tlast      = s_axis_adap_rx_250mhz_tlast;
+    assign m_axis_adap_tx_250mhz_tuser_size = s_axis_adap_rx_250mhz_tuser_size;
+    assign m_axis_adap_tx_250mhz_tuser_src  = s_axis_adap_rx_250mhz_tuser_src;
+    assign m_axis_adap_tx_250mhz_tuser_dst  = s_axis_adap_rx_250mhz_tuser_dst;
+    assign s_axis_adap_rx_250mhz_tready     = m_axis_adap_tx_250mhz_tready;
 
     axi_lite_slave #(
       .REG_ADDR_W (12),
@@ -261,64 +264,64 @@ module box_250mhz #(
     passthrough_250mhz #(
       .NUM_INTF (NUM_PHYS_FUNC)
     ) pt_inst (
-      .s_axil_awvalid              (axil_pt_awvalid),
-      .s_axil_awaddr               (axil_pt_awaddr),
-      .s_axil_awready              (axil_pt_awready),
-      .s_axil_wvalid               (axil_pt_wvalid),
-      .s_axil_wdata                (axil_pt_wdata),
-      .s_axil_wready               (axil_pt_wready),
-      .s_axil_bvalid               (axil_pt_bvalid),
-      .s_axil_bresp                (axil_pt_bresp),
-      .s_axil_bready               (axil_pt_bready),
-      .s_axil_arvalid              (axil_pt_arvalid),
-      .s_axil_araddr               (axil_pt_araddr),
-      .s_axil_arready              (axil_pt_arready),
-      .s_axil_rvalid               (axil_pt_rvalid),
-      .s_axil_rdata                (axil_pt_rdata),
-      .s_axil_rresp                (axil_pt_rresp),
-      .s_axil_rready               (axil_pt_rready),
+      .s_axil_awvalid                   (axil_pt_awvalid),
+      .s_axil_awaddr                    (axil_pt_awaddr),
+      .s_axil_awready                   (axil_pt_awready),
+      .s_axil_wvalid                    (axil_pt_wvalid),
+      .s_axil_wdata                     (axil_pt_wdata),
+      .s_axil_wready                    (axil_pt_wready),
+      .s_axil_bvalid                    (axil_pt_bvalid),
+      .s_axil_bresp                     (axil_pt_bresp),
+      .s_axil_bready                    (axil_pt_bready),
+      .s_axil_arvalid                   (axil_pt_arvalid),
+      .s_axil_araddr                    (axil_pt_araddr),
+      .s_axil_arready                   (axil_pt_arready),
+      .s_axil_rvalid                    (axil_pt_rvalid),
+      .s_axil_rdata                     (axil_pt_rdata),
+      .s_axil_rresp                     (axil_pt_rresp),
+      .s_axil_rready                    (axil_pt_rready),
 
-      .s_axis_qdma_h2c_tvalid      (s_axis_qdma_h2c_tvalid),
-      .s_axis_qdma_h2c_tdata       (s_axis_qdma_h2c_tdata),
-      .s_axis_qdma_h2c_tkeep       (s_axis_qdma_h2c_tkeep),
-      .s_axis_qdma_h2c_tlast       (s_axis_qdma_h2c_tlast),
-      .s_axis_qdma_h2c_tuser_size  (s_axis_qdma_h2c_tuser_size),
-      .s_axis_qdma_h2c_tuser_src   (s_axis_qdma_h2c_tuser_src),
-      .s_axis_qdma_h2c_tuser_dst   (s_axis_qdma_h2c_tuser_dst),
-      .s_axis_qdma_h2c_tready      (s_axis_qdma_h2c_tready),
+      .s_axis_qdma_h2c_tvalid           (s_axis_qdma_h2c_tvalid),
+      .s_axis_qdma_h2c_tdata            (s_axis_qdma_h2c_tdata),
+      .s_axis_qdma_h2c_tkeep            (s_axis_qdma_h2c_tkeep),
+      .s_axis_qdma_h2c_tlast            (s_axis_qdma_h2c_tlast),
+      .s_axis_qdma_h2c_tuser_size       (s_axis_qdma_h2c_tuser_size),
+      .s_axis_qdma_h2c_tuser_src        (s_axis_qdma_h2c_tuser_src),
+      .s_axis_qdma_h2c_tuser_dst        (s_axis_qdma_h2c_tuser_dst),
+      .s_axis_qdma_h2c_tready           (s_axis_qdma_h2c_tready),
 
-      .m_axis_qdma_c2h_tvalid      (m_axis_qdma_c2h_tvalid),
-      .m_axis_qdma_c2h_tdata       (m_axis_qdma_c2h_tdata),
-      .m_axis_qdma_c2h_tkeep       (m_axis_qdma_c2h_tkeep),
-      .m_axis_qdma_c2h_tlast       (m_axis_qdma_c2h_tlast),
-      .m_axis_qdma_c2h_tuser_size  (m_axis_qdma_c2h_tuser_size),
-      .m_axis_qdma_c2h_tuser_src   (m_axis_qdma_c2h_tuser_src),
-      .m_axis_qdma_c2h_tuser_dst   (m_axis_qdma_c2h_tuser_dst),
-      .m_axis_qdma_c2h_tready      (m_axis_qdma_c2h_tready),
+      .m_axis_qdma_c2h_tvalid           (m_axis_qdma_c2h_tvalid),
+      .m_axis_qdma_c2h_tdata            (m_axis_qdma_c2h_tdata),
+      .m_axis_qdma_c2h_tkeep            (m_axis_qdma_c2h_tkeep),
+      .m_axis_qdma_c2h_tlast            (m_axis_qdma_c2h_tlast),
+      .m_axis_qdma_c2h_tuser_size       (m_axis_qdma_c2h_tuser_size),
+      .m_axis_qdma_c2h_tuser_src        (m_axis_qdma_c2h_tuser_src),
+      .m_axis_qdma_c2h_tuser_dst        (m_axis_qdma_c2h_tuser_dst),
+      .m_axis_qdma_c2h_tready           (m_axis_qdma_c2h_tready),
 
-      .m_axis_tx_250mhz_tvalid     (m_axis_tx_250mhz_tvalid),
-      .m_axis_tx_250mhz_tdata      (m_axis_tx_250mhz_tdata),
-      .m_axis_tx_250mhz_tkeep      (m_axis_tx_250mhz_tkeep),
-      .m_axis_tx_250mhz_tlast      (m_axis_tx_250mhz_tlast),
-      .m_axis_tx_250mhz_tuser_size (m_axis_tx_250mhz_tuser_size),
-      .m_axis_tx_250mhz_tuser_src  (m_axis_tx_250mhz_tuser_src),
-      .m_axis_tx_250mhz_tuser_dst  (m_axis_tx_250mhz_tuser_dst),
-      .m_axis_tx_250mhz_tready     (m_axis_tx_250mhz_tready),
+      .m_axis_adap_tx_250mhz_tvalid     (m_axis_adap_tx_250mhz_tvalid),
+      .m_axis_adap_tx_250mhz_tdata      (m_axis_adap_tx_250mhz_tdata),
+      .m_axis_adap_tx_250mhz_tkeep      (m_axis_adap_tx_250mhz_tkeep),
+      .m_axis_adap_tx_250mhz_tlast      (m_axis_adap_tx_250mhz_tlast),
+      .m_axis_adap_tx_250mhz_tuser_size (m_axis_adap_tx_250mhz_tuser_size),
+      .m_axis_adap_tx_250mhz_tuser_src  (m_axis_adap_tx_250mhz_tuser_src),
+      .m_axis_adap_tx_250mhz_tuser_dst  (m_axis_adap_tx_250mhz_tuser_dst),
+      .m_axis_adap_tx_250mhz_tready     (m_axis_adap_tx_250mhz_tready),
 
-      .s_axis_rx_250mhz_tvalid     (s_axis_rx_250mhz_tvalid),
-      .s_axis_rx_250mhz_tdata      (s_axis_rx_250mhz_tdata),
-      .s_axis_rx_250mhz_tkeep      (s_axis_rx_250mhz_tkeep),
-      .s_axis_rx_250mhz_tlast      (s_axis_rx_250mhz_tlast),
-      .s_axis_rx_250mhz_tuser_size (s_axis_rx_250mhz_tuser_size),
-      .s_axis_rx_250mhz_tuser_src  (s_axis_rx_250mhz_tuser_src),
-      .s_axis_rx_250mhz_tuser_dst  (s_axis_rx_250mhz_tuser_dst),
-      .s_axis_rx_250mhz_tready     (s_axis_rx_250mhz_tready),
+      .s_axis_adap_rx_250mhz_tvalid     (s_axis_adap_rx_250mhz_tvalid),
+      .s_axis_adap_rx_250mhz_tdata      (s_axis_adap_rx_250mhz_tdata),
+      .s_axis_adap_rx_250mhz_tkeep      (s_axis_adap_rx_250mhz_tkeep),
+      .s_axis_adap_rx_250mhz_tlast      (s_axis_adap_rx_250mhz_tlast),
+      .s_axis_adap_rx_250mhz_tuser_size (s_axis_adap_rx_250mhz_tuser_size),
+      .s_axis_adap_rx_250mhz_tuser_src  (s_axis_adap_rx_250mhz_tuser_src),
+      .s_axis_adap_rx_250mhz_tuser_dst  (s_axis_adap_rx_250mhz_tuser_dst),
+      .s_axis_adap_rx_250mhz_tready     (s_axis_adap_rx_250mhz_tready),
 
-      .mod_rstn                    (pt_rstn),
-      .mod_rst_done                (pt_rst_done),
+      .mod_rstn                         (pt_rstn),
+      .mod_rst_done                     (pt_rst_done),
 
-      .axil_aclk                   (axil_aclk),
-      .axis_aclk                   (axis_aclk)
+      .axil_aclk                        (axil_aclk),
+      .axis_aclk                        (axis_aclk)
     );
   end
   else begin

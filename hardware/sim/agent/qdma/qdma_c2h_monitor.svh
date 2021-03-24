@@ -52,11 +52,11 @@ class qdma_c2h_monitor#(TDATA_W) extends uvm_monitor;
     mty   = _if.mty;
     tlast = _if.tlast;
 
-    foreach (tdata[i]) begin
-      if (_if.dpar[i] != ~(^tdata[i])) begin
-        `uvm_warning(get_name(), $sformatf("found parity mismatch: bit %d", i));
-      end
-    end
+    // foreach (tdata[i]) begin
+    //   if (_if.dpar[i] != ~(^tdata[i])) begin
+    //     `uvm_warning(get_name(), $sformatf("found parity mismatch: bit %d", i));
+    //   end
+    // end
 
     item.do_stream_in(tdata, mty, tlast);
   endfunction: do_stream_in

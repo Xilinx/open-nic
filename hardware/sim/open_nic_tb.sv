@@ -33,7 +33,6 @@ module open_nic_tb;
     .USE_PHYS_FUNC (USE_PHYS_FUNC),
     .NUM_PHYS_FUNC (NUM_PHYS_FUNC),
     .NUM_QUEUE     (NUM_QUEUE),
-    .USE_CMAC_PORT (USE_CMAC_PORT),
     .NUM_CMAC_PORT (NUM_CMAC_PORT)
   ) dut_wrapper(._if(dut_if));
   
@@ -45,7 +44,6 @@ module open_nic_tb;
     uvm_config_db#(int)::set(null, "*", "USE_PHYS_FUNC", USE_PHYS_FUNC);
     uvm_config_db#(int)::set(null, "*", "NUM_PHYS_FUNC", NUM_PHYS_FUNC);
     uvm_config_db#(int)::set(null, "*", "NUM_QUEUE", NUM_QUEUE);
-    uvm_config_db#(int)::set(null, "*", "USE_CMAC_PORT", USE_CMAC_PORT);
     uvm_config_db#(int)::set(null, "*", "NUM_CMAC_PORT", NUM_CMAC_PORT);
 
     uvm_config_db#(virtual open_nic_if)::set(null, "uvm_test_top", "dut_if", dut_if);

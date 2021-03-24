@@ -50,11 +50,11 @@ class qdma_h2c_monitor#(TDATA_W) extends uvm_monitor;
 
     tdata = {<<8{_if.tdata}};
 
-    foreach (tdata[i]) begin
-      if (_if.dpar[i] != ~(^tdata[i])) begin
-        `uvm_warning(get_name(), $sformatf("found parity mismatch: bit %d", i));
-      end
-    end
+    // foreach (tdata[i]) begin
+    //   if (_if.dpar[i] != ~(^tdata[i])) begin
+    //     `uvm_warning(get_name(), $sformatf("found parity mismatch: bit %d", i));
+    //   end
+    // end
     mty   = _if.tuser_mty;
     tlast = _if.tlast;
 

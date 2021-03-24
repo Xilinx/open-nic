@@ -38,7 +38,7 @@ proc write_questa_sim {} {
     puts $fp {    if {[string equal [file extension $path] ".vhd"]} {vcom +acc +incdir+${shell_dir} +incdir+${top_build_dir} $path} else {vlog -sv +acc +incdir+${shell_dir} +incdir+${top_build_dir} $path}}
     puts $fp "}"
     puts $fp {close $fp}
-    puts $fp {vsim -sv_root ${sim_dir}/dpi -sv_lib tap -L xpm -L unisims_ver -L axi_crossbar_v2_1_21 -L generic_baseblocks_v2_1_0 -L axis_register_slice_v1_1_20 -L axis_infrastructure_v1_1_0 -L axi_register_slice_v2_1_20 ${top}_tb glbl}
+    puts $fp {vsim -sv_root ${sim_dir}/dpi -sv_lib tap -L xpm -L unisims_ver -L axi_crossbar_v2_1_23 -L generic_baseblocks_v2_1_0 -L axis_register_slice_v1_1_22 -L axis_infrastructure_v1_1_0 -L axi_register_slice_v2_1_22 -L ecc_v2_0_13 ${top}_tb glbl}
     puts $fp {run -all}
     close $fp
 
@@ -79,7 +79,7 @@ proc write_questa_sim {} {
 #######################
 
 # Vivado version check
-set VIVADO_VERSION "2019.2.0"
+set VIVADO_VERSION "2020.2"
 if {![string equal [version -short] $VIVADO_VERSION]} {
     puts "OpenNIC requires Vivado version $VIVADO_VERSION"
     exit
@@ -90,8 +90,7 @@ set root_dir [file normalize ..]
 set script_dir ${root_dir}/script
 set src_dir ${root_dir}/src
 set sim_dir ${root_dir}/sim
-# set shell_dir ${root_dir}/shell
-set shell_dir "/proj/xapctostaff1/yanz/Workspace/open-nic-shell"
+set shell_dir ${root_dir}/shell
 
 # Build options
 #   board_repo   Path to the Xilinx board store repository
@@ -111,7 +110,6 @@ set shell_dir "/proj/xapctostaff1/yanz/Workspace/open-nic-shell"
 #   use_phys_func    0 or 1
 #   num_phys_func    Number of QDMA physical functions (1 to 4)
 #   num_queue        Number of QDMA queues (1 to 2048)
-#   use_cmac_port    0 or 1
 #   num_cmac_port    Number of CMAC instances (1 or 2)
 array set build_options {
     -board_repo  ""
@@ -132,7 +130,6 @@ array set design_params {
     -use_phys_func    1
     -num_phys_func    1
     -num_queue        2048
-    -use_cmac_port    1
     -num_cmac_port    1
 }
 
@@ -410,7 +407,7 @@ if {$sim} {
 }
 
 # Set vivado generic
-set generic "MAX_PKT_LEN=$max_pkt_len MIN_PKT_LEN=$min_pkt_len USE_PHYS_FUNC=$use_phys_func NUM_PHYS_FUNC=$num_phys_func NUM_QUEUE=$num_queue USE_CMAC_PORT=$use_cmac_port NUM_CMAC_PORT=$num_cmac_port"
+set generic "MAX_PKT_LEN=$max_pkt_len MIN_PKT_LEN=$min_pkt_len USE_PHYS_FUNC=$use_phys_func NUM_PHYS_FUNC=$num_phys_func NUM_QUEUE=$num_queue NUM_CMAC_PORT=$num_cmac_port"
 set_property generic $generic [current_fileset]
 
 # For simulation build, write out the file list and exit

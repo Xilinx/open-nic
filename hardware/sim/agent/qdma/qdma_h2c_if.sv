@@ -20,8 +20,8 @@ interface qdma_h2c_if#(TDATA_W)(input aclk, input aresetn);
 
   logic                         tvalid;
   logic           [TDATA_W-1:0] tdata;
+  logic                  [31:0] tcrc;
   logic                         tlast;
-  logic       [(TDATA_W/8)-1:0] dpar;
   logic                  [10:0] tuser_qid;
   logic                   [2:0] tuser_port_id;
   logic                         tuser_err;
