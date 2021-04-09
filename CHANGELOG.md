@@ -1,21 +1,21 @@
 # CHANGELOG
 
-## [1.0] 2021-04-07
+## [1.0] 2021-04-09
 
 First public release.  Here are the changes compared with the last early-access
 release version 0.4.2.
 
-### OpenNIC Shell
+### OpenNIC Shell (1.0)
 
 - Upgraded to Vivado 2020.2.
 - Changed the AXI-stream interfaces between shell and user logic boxes.  See
-  [README.md](https://github.com/Xilinx/open-nic-shell/blob/3b6f94a5855d468001d895e1768f25d25907bf02/README.md)
-  for details.
+  [README.md](https://github.com/Xilinx/open-nic-shell/blob/1.0/README.md) for
+  details.
 - Restructured the repo.  Now all the RTL code are under "open-nic-shell". The
   "open-nic" repo will become an umbrella for the OpenNIC project.
 - Introduced a new approach to build the shell with user plugins.  See
-  [README.md](https://github.com/Xilinx/open-nic-shell/blob/3b6f94a5855d468001d895e1768f25d25907bf02/README.md)
-  for details.
+  [README.md](https://github.com/Xilinx/open-nic-shell/blob/1.0/README.md) for
+  details.
 - Added support for build timestamp.  The timestamp is recorded automatically in
   the format 0xMMDD_HHMM, where the first MM is for month and the second for
   minute. It can be read from the register 0x0 via BAR2.
@@ -24,12 +24,14 @@ release version 0.4.2.
 - Enable RS-FEC on CMAC.
 - Simulation code is removed and will be pushed into a separate repo.
 
-### OpenNIC Driver
+### OpenNIC Driver (1.0)
 
 - Updated the CMAC core version check to be compatiable with Vivado 2020.2.
 - Added randomization of MAC address generation.
 - Enabled RS-FEC support.
 - Adjusted the waiting time for RX lane alignment.
+- Disabled TX completion interrupt and move the completion routine into a couple
+  of different contexts.
 
 ---
 
