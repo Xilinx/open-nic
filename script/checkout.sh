@@ -36,14 +36,14 @@ fi
 ORGDIR="${ROOTDIR}/github.com/Xilinx"
 VERSION_FILE="version.yaml"
 
-HASH_LINES=$(grep -w "v${VERSION}:" --after-context=2 ${VERSION_FILE} | tail -n +2)
+REPO_TAG_LINES=$(grep -w "${VERSION}:" --after-context=2 ${VERSION_FILE} | tail -n +2)
 
-if [ -z "$HASH_LINES" ]; then
+if [ -z "$REPO_TAG_LINES" ]; then
     echo "Cannot find OpenNIC version $VERSION"
     exit 1
 fi
 
-while IFS=" :" read -r REPO HASH
+while IFS=" :" read -r REPO TAG
 do
     if [ ! -e ${ORGDIR}/${REPO} ]; then
         mkdir -p ${ORGDIR}
@@ -53,8 +53,8 @@ do
         echo "Found $REPO at $(realpath --relative-base=. ${ORGDIR}/${REPO})"
     fi
 
-    echo "Checking out commit $HASH of $REPO"
+    echo "Checking out $REPO @ $TAG"
     pushd ${ORGDIR}/${REPO} > /dev/null
-    git checkout -q ${HASH}
+    git checkout -q $TAG
     popd > /dev/null
-done <<< "$HASH_LINES"
+done <<< "$REPO_TAG_LINES"
