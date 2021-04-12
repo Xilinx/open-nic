@@ -18,23 +18,23 @@
 #! /bin/bash
 
 if [ $# -eq 0 ]; then
-    echo "Usage: checkout.sh VERSION [ROOTDIR]"
+    echo "Usage: checkout.sh ROOTDIR [VERSION]"
     echo ""
-    echo "    VERSION    X.Y"
-    echo "               Version number of OpenNIC."
     echo "    ROOTDIR    PATH"
     echo "               Directory for checking out."
+    echo "    VERSION    X.Y"
+    echo "               Version number of OpenNIC."
     exit 1
 fi
 
-VERSION=$1
-ROOTDIR=$(pwd)
-if [ $# -gt 1 ]; then
-    ROOTDIR=$2
-fi
-
+ROOTDIR=$1
 ORGDIR="${ROOTDIR}/github.com/Xilinx"
+
 VERSION_FILE="version.yaml"
+VERSION=$(head -n 1 $VERSION_FILE | cut -d ":" -f 1)
+if [ $# -gt 1 ]; then
+    VERSION=$2
+fi
 
 REPO_TAG_LINES=$(grep -w "${VERSION}:" --after-context=2 ${VERSION_FILE} | tail -n +2)
 
@@ -43,6 +43,7 @@ if [ -z "$REPO_TAG_LINES" ]; then
     exit 1
 fi
 
+echo "Checking out OpenNIC version $VERSION..."
 while IFS=" :" read -r REPO TAG
 do
     if [ ! -e ${ORGDIR}/${REPO} ]; then
@@ -58,3 +59,4 @@ do
     git checkout -q $TAG
     popd > /dev/null
 done <<< "$REPO_TAG_LINES"
+echo "OpenNIC version $VERSION checked out"

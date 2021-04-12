@@ -1,5 +1,30 @@
 # OpenNIC Project
 
+The OpenNIC project provides an FPGA-NIC platform for the open source community.
+It consists of two components, an NIC shell and a Linux kernel driver.  The NIC
+shell is an RTL project based on Xilinx FPGA.  It targets on a couple of Xilinx
+boards, and delivers an NIC implementation supporting up to 4 PCI-e physical
+functions (PFs) and 2 100Gbps Ethernet ports.  The shell, equipped with
+well-defined data and control interfaces, is designed for easy integration of
+user RTL logic.  A diagram of the OpenNIC shell is shown as follows.
+
+![](open_nic_shell.png)
+
+The Linux kernel driver implements the device driver for the NIC shell.  It
+supports multiple PFs and multiple TX/RX queues in each PF.  The RX queues are
+selected through a receiving-side scaling (RSS) implementation in the shell.  As
+of version 1.0, the driver has not implemented the ethtool routines to change
+the hash key and the indirection table.
+
+It should be mentioned that the goal of OpenNIC is to enable fast prototyping of
+network-attached applications.  It is not intended to be a fully-fledged
+SmartNIC solution.
+
+The latest version of OpenNIC is 1.0, which uses OpenNIC shell version 1.0 and
+OpenNIC driver version 1.0.
+
+## Repo Structure
+
 This repository serves as the release point for the OpenNIC project, which
 consists of two components, [OpenNIC
 shell](https://github.com/Xilinx/open-nic-shell.git) and [OpenNIC
@@ -7,9 +32,10 @@ driver](https://github.com/Xilinx/open-nic-driver.git).  A released version of
 OpenNIC pins to a commit in the `master` branch of each component repository.
 
 A Bash script `script/checkout.sh` is provided to checkout a specific version of
-OpenNIC.  It takes two arguments, version number and optionally, root directory
-for the cloned repositories.  The correspondence between OpenNIC versions and
-component repository commits are tracked in `script/version.yaml`.
+OpenNIC.  It takes two arguments, the root directory for the cloned repositories
+and optionally, a version number.  By default, it will checkout the latest
+version.  The correspondence between OpenNIC versions and component repository
+tags are tracked in `script/version.yaml`.
 
 ---
 
