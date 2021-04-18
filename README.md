@@ -1,24 +1,22 @@
 # OpenNIC Project
 
-The OpenNIC project provides an FPGA-NIC platform for the open source community.
-It consists of two components, an NIC shell and a Linux kernel driver.  The NIC
-shell is an RTL project based on Xilinx FPGA.  It targets on a couple of Xilinx
-boards, and delivers an NIC implementation supporting up to 4 PCI-e physical
-functions (PFs) and 2 100Gbps Ethernet ports.  The shell, equipped with
-well-defined data and control interfaces, is designed for easy integration of
-user RTL logic.  A diagram of the OpenNIC shell is shown as follows.
+The OpenNIC project provides an FPGA-based NIC platform for the open source
+community.  It consists of two components, a NIC shell and a Linux kernel
+driver.  The NIC shell is an RTL project for Xilinx FPGA, and currently targets
+two of the Xilinx Alveo board family.  It delivers a NIC implementation
+supporting up to four PCI-e physical functions (PFs) and two 100Gbps Ethernet
+ports.  The shell is equipped with well-defined data and control interfaces and
+is designed to enable easy integration of user logic into the shell.  A block
+diagram of the OpenNIC shell follows:
 
 ![](open_nic_shell.png)
 
-The Linux kernel driver implements the device driver for the NIC shell.  It
+The Linux kernel driver implements the device driver for the NIC shell. It
 supports multiple PFs and multiple TX/RX queues in each PF.  The RX queues are
-selected through a receiving-side scaling (RSS) implementation in the shell.  As
-of version 1.0, the driver has not implemented the ethtool routines to change
-the hash key and the indirection table.
+selected through a receive-side scaling (RSS) implementation in the shell.
 
-It should be mentioned that the goal of OpenNIC is to enable fast prototyping of
-network-attached applications.  It is not intended to be a fully-fledged
-SmartNIC solution.
+The goal of OpenNIC is to enable fast prototyping of hardware-accelerated
+network-attached applications.  It is not a fully-fledged SmartNIC solution.
 
 The latest version of OpenNIC is 1.0, which uses OpenNIC shell version 1.0 and
 OpenNIC driver version 1.0.
