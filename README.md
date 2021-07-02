@@ -35,6 +35,14 @@ and optionally, a version number.  By default, it will checkout the latest
 version.  The correspondence between OpenNIC versions and component repository
 tags are tracked in `script/version.yaml`.
 
+## Technical Reference Guide
+
+A technical reference guide describes some of the design details of the implementation
+of the OpenNIC ([OpenNIC manual](https://github.com/Xilinx/open-nic/blob/main/OpenNIC_manual.docx)).  The
+guide primarily describes the details of the architecture for the shell, and it also describes the basic parts of
+the Linux kernel driver for OpenNIC at a high level.
+
+
 ---
 
 # Copyright Notice and Disclaimer
