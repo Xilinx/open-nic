@@ -42,6 +42,12 @@ or [MS Word version](https://github.com/Xilinx/open-nic/blob/main/OpenNIC_manual
 the design of the OpenNIC.  The document primarily covers the hardware architecture and its related
 implementation.  It also briefly describes the organization of the Linux kernel driver for OpenNIC.
 
+## FAQ
+
+A set of [frequently asked questions](https://github.com/Xilinx/open-nic/blob/main/FAQ.md)
+has been prepared to help in answering questions regarding this project.  The FAQ has sections for:
+(a) general questions, (b) feature set questions, (c) hardware questions, (d) software questions, and
+(e) operation questions.  Please contact us to submit any additional questions that you feel would help others.
 
 ---
 
