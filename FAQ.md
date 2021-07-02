@@ -150,7 +150,7 @@ A variant of AXI4-stream protocol is used, with additional fields for packet
 size, source and destination.  See the OpenNIC technical reference guide for details.
 
 ### Are there recommendations for customizing clocking for user IP or adding additional clocks?
-There are currently three main clock domains for data movement within the design: (a) cmac_clk at 322 MHz, (b) axis_clk from the QDMA IP at 250 MHz, and (c) axil_clk from the QDMA subsystem for memory-mapped control logic at 125 MHz.  The user logic boxes serve as placeholders for either inserting user modules either in the 322 MHz clock domain or in the 250 MHz clock domain. If it becomes necessary to add custom clocking, the recommendation is to instantiate a clock wizard IP from the Vivado IP catalog, potentially using the axil_clk as the input clock with PLL or MMCM as appropriate.  It might make sense to create a similar user logic box to help organize the design.
+There are currently three main clock domains for data movement within the design: (a) cmac_clk at 322 MHz, (b) axis_clk from the QDMA IP at 250 MHz, and (c) axil_clk from the QDMA subsystem for memory-mapped control logic at 125 MHz.  The user logic boxes serve as placeholders for inserting user modules either in the 322 MHz clock domain or in the 250 MHz clock domain. If it becomes necessary to add custom clocking, the recommendation is to instantiate a clock wizard IP from the Vivado IP catalog, potentially using the axil_clk as the input clock with PLL or MMCM as appropriate.  It might make sense to create a similar user logic box to help organize the design.
 
 ---
 
