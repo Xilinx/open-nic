@@ -37,10 +37,10 @@ tags are tracked in `script/version.yaml`.
 
 ## Technical Reference Guide
 
-A [technical reference guide](https://github.com/Xilinx/open-nic/blob/main/OpenNIC_manual.docx)
-provides details of the design of the OpenNIC .  The document primarily covers the
-hardware architecture and its related implementation.  It also briefly
-describes the organization of the Linux kernel driver for OpenNIC.
+A technical reference guide ([PDF version](https://github.com/Xilinx/open-nic/blob/main/OpenNIC_manual.pdf)
+or [MS Word version](https://github.com/Xilinx/open-nic/blob/main/OpenNIC_manual.docx)) provides details of
+the design of the OpenNIC.  The document primarily covers the hardware architecture and its related
+implementation.  It also briefly describes the organization of the Linux kernel driver for OpenNIC.
 
 
 ---
