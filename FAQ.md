@@ -28,7 +28,7 @@
   * [What kinds of bus protocols are supported in the interface between OpenNIC shell and user logic box?](#what-kinds-of-bus-protocols-are-supported-in-the-interface-between-opennic-shell-and-user-logic-box)
   * [Are there recommendations for customizing clocking for user IP or adding additional clocks?](#are-there-recommendations-for-customizing-clocking-for-user-ip-or-adding-additional-clocks)
 - [Software Questions](#software-questions)
-  * [Can OpenNIC be used with the Vitis flow?](#can-opennic-can-be-used-with-the-vitis-flow)
+  * [Can OpenNIC be used with the Vitis flow?](#can-opennic-be-used-with-the-vitis-flow)
   * [What SW support can I expect to use, for example, DPDK, eBPF, VM, etc.?](#what-sw-support-can-i-expect-to-use-for-example-dpdk-ebpf-vm-etc)
   * [Can I use HLS with OpenNIC?](#can-i-use-hls-with-opennic)
 - [Operation Questions](#operation-questions)
