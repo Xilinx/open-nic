@@ -69,7 +69,7 @@ being NetFPGA SUME.  However, the next generation - NetFPGA PLUS - is actually b
 OpenNIC community member, and has been working with early access versions prior to the open source version 1.0 release.
 
 ### How does OpenNIC relate to VNx and EasyNet?
-VNx (https://github.com/Xilinx/xup_vitis_network_example) and EasyNet (https://github.com/fpgasystems/Vitis_with_100Gbps_TCP-IP) are two open source framework for
+VNx (https://github.com/Xilinx/xup_vitis_network_example) and EasyNet (https://github.com/fpgasystems/Vitis_with_100Gbps_TCP-IP) are two open source frameworks for
 connecting FPGA-accelerated applications directly to networks without CPU intervention.  VNx, from the Xilinx University Program, offers UDP/IP support and
 EasyNet, from ETH Zurich, offers TCP/IP support.  Both are targeted at users developing applications with Xilinx Vitis, who need "out of the box" 100Gb/s networking.
 OpenNIC, on the other hand, is intended for networking research and experimentation with new FPGA-based networking components.
