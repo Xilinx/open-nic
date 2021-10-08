@@ -133,7 +133,7 @@ This is currently in progress in the community, and is expected to be added to a
 ## Hardware Questions
 
 ### What Xilinx boards does OpenNIC support and how much FPGA resource is available to users?
-OpenNIC currently runs on Alveo U250, and U280 boards. Support for the Alveo U50 is currently in progress in the community. The OpenNIC consumes very few FPGA resources, and the resource consumption depends on the configuration paramters such as the number of CMACs and the number of physical functions. With the default configuration, the OpenNIC consumes about 5% of the available LUTs and BRAMs on the U250.
+OpenNIC currently runs on Alveo U50, U200, U250, and U280 boards. The OpenNIC consumes very few FPGA resources, and the resource consumption depends on the configuration paramters such as the number of CMACs and the number of physical functions. With the default configuration, the OpenNIC consumes about 5% of the available LUTs and BRAMs on the U250.
 
 ### What servers have been used with OpenNIC?
 OpenNIC has been used with Dell Poweredge R740, Dell Precision 7290 servers, Supermicro AS-2024US-TRT, and with multiple other desktops and towers. In addition to this short list, Xilinx provides a list of servers that have been qualified to work with various Alveo cards, at //https://www.xilinx.com/products/boards-and-kits/alveo/qualified-servers.html.
