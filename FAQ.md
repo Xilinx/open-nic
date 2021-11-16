@@ -23,6 +23,7 @@
 - [Hardware Questions](#hardware-questions)
   * [What Xilinx boards does OpenNIC support and how much FPGA resource is available to users?](#what-xilinx-boards-does-opennic-support-and-how-much-fpga-resource-is-available-to-users)
   * [What servers have been used with OpenNIC?](#what-servers-have-been-used-with-opennic)
+  * [Are there recommendations for USB cable for programming the Alveo card?](#are-there-recommendations-for-usb-cables)
   * [How do I use handle the user-box TUSER signals with SDNet which does not support TUSER?](#how-do-i-use-handle-the-user-box-tuser-signals-with-sdnet-which-does-not-support-tuser)
   * [How many physical functions, virtual functions and queues are supported in OpenNIC?](#how-many-physical-functions-virtual-functions-and-queues-are-supported-in-opennic)
   * [What kinds of bus protocols are supported in the interface between OpenNIC shell and user logic box?](#what-kinds-of-bus-protocols-are-supported-in-the-interface-between-opennic-shell-and-user-logic-box)
@@ -137,6 +138,9 @@ OpenNIC currently runs on Alveo U50, U200, U250, and U280 boards. The OpenNIC co
 
 ### What servers have been used with OpenNIC?
 OpenNIC has been used with Dell Poweredge R740, Dell Precision 7290 servers, Supermicro AS-2024US-TRT, and with multiple other desktops and towers. In addition to this short list, Xilinx provides a list of servers that have been qualified to work with various Alveo cards, at //https://www.xilinx.com/products/boards-and-kits/alveo/qualified-servers.html.
+
+### Are there recommendations for USB cable for programming the Alveo card?
+Most generic micro-usb cables that support data should be okay.  As an example, we have had success using heyday micro-usb cables (for Android) found at Target.
 
 ### How do I use handle the TUSER signals of user logic boxes when using VitisNetP4 (formerly known as SDNet)?
 Use an SDNet Tuple to propagate the TUSER signals across different engines.
