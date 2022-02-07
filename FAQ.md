@@ -62,7 +62,7 @@ and the shell is carefully designed so that it hides many details and only expos
 Corundum (https://github.com/corundum/corundum) provides a complete NIC that includes various interesting features, some of which could potentially be brought into
 OpenNIC as future enhancements.  One technical difference between OpenNIC and Corundum is that OpenNIC uses the Xilinx QDMA IP core for the host interface, while Corundum
 uses a fully custom DMA subsystem.  As a result, OpenNIC benefits from mainstream support for the QDMA IP and software.  On the other hand, the DMA subsystem in Corundum
-is more flexible, being open to custimization.
+is more flexible, being open to customization.
 
 ### How does OpenNIC relate to NetFPGA?
 NetFPGA (www.netfpga.org) is a long-running open source community for networking using Xilinx FPGAs.  It has traditionally been based on custom boards, the latest generation
