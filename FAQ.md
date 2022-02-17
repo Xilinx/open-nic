@@ -26,7 +26,8 @@
   * [Are there recommendations for USB cables for programming the FPGA?](#are-there-recommendations-for-usb-cables-for-programming-the-fpga)
   * [How do I use handle the user-box TUSER signals with SDNet which does not support TUSER?](#how-do-i-use-handle-the-user-box-tuser-signals-with-sdnet-which-does-not-support-tuser)
   * [How many physical functions, virtual functions and queues are supported in OpenNIC?](#how-many-physical-functions-virtual-functions-and-queues-are-supported-in-opennic)
-  * [What kinds of bus protocols are supported in the interface between OpenNIC shell and user logic box?](#what-kinds-of-bus-protocols-are-supported-in-the-interface-between-opennic-shell-and-user-logic-box)
+  * [Why are there two user logic boxes in OpenNIC?](#why-are-there-two-user-logic-boxes-in-opennic)
+  * [What kinds of bus protocols are supported in the interface between OpenNIC shell and user logic boxes?](#what-kinds-of-bus-protocols-are-supported-in-the-interface-between-opennic-shell-and-user-logic-boxes)
   * [Are there recommendations for customizing clocking for user IP or adding additional clocks?](#are-there-recommendations-for-customizing-clocking-for-user-ip-or-adding-additional-clocks)
 - [Software Questions](#software-questions)
   * [Can OpenNIC be used with the Vitis flow?](#can-opennic-be-used-with-the-vitis-flow)
@@ -77,7 +78,7 @@ OpenNIC, on the other hand, is intended for networking research and experimentat
 
 ### Can I use P4 with OpenNIC?
 Yes.  The Xilinx Vitis Networking P4 (VitisNetP4 for short, formerly known as SDNet) compiler can be used to generate an IP block with standard AXI interfaces that can be
-placed in the user region of the OpenNIC shell.  Community work is currently under way to provide a "big green button" flow, similar to the longstanding P4->NetFPGA flow, to
+placed in either user box of the OpenNIC shell.  Community work is currently under way to provide a "big green button" flow, similar to the longstanding P4->NetFPGA flow, to
 simplify the process for using OpenNIC as a P4 target.
 
 ### How do I migrate from an older version of OpenNIC to version 1.0?
@@ -149,7 +150,13 @@ Use an SDNet Tuple to propagate the TUSER signals across different engines.
 OpenNIC shell can use up to four physical functions and 2048 queues.  As of version
 1.0, it does not support virtual functions.
 
-### What kinds of bus protocols are supported in the interface between OpenNIC shell and user logic box?
+### Why are there two user logic boxes in OpenNIC?
+The user logic boxes allow for two roles with the OpenNIC shell.  Their names reflect the clock rates used.  The 322 MHz block is typically used for network-attached
+accelerators where network traffic flows in and then back out, and its rate allows it to handle the worst case of sustained minimum-size Ethernet packets at 100Gbps line rate
+(150 million packets per second).  The 250 MHz block is typically used for NIC use cases where network traffic flows in and out of the host.  This slower clock domain cannot
+handle the theoretical worst-case packet rate but reflects the fact that, for packets to and from the host over PCIe, the QDMA only runs at 250 MHz.
+
+### What kinds of bus protocols are supported in the interface between OpenNIC shell and user logic boxes?
 A variant of AXI4-stream protocol is used, with additional fields for packet
 size, source and destination.  See the OpenNIC technical reference guide for details.
 
