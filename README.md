@@ -1,4 +1,4 @@
-# OpenNIC Project
+# AMD OpenNIC Project
 
 The OpenNIC project provides an FPGA-based NIC platform for the open source
 community.  It consists of two components, a NIC shell and a Linux kernel
