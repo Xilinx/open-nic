@@ -171,7 +171,7 @@ There are currently three main clock domains for data movement within the design
 OpenNIC cannot be used with the Vitis flow. Use Vivado.
 
 ### What SW support can I expect to use, for example, DPDK, eBPF, VM, etc.? 
-Xilinx provides the linux open-nic-driver sources, and an excellent DPDK driver has been developed by the community.
+Xilinx provides the linux open-nic-driver sources, and an excellent DPDK driver has been developed by the community.  The current open-nic-dpdk can be built using the instructions provided at [open-nic-dpdk](https://github.com/Xilinx/open-nic-dpdk). 
 
 ### Can I use HLS with OpenNIC?
 Yes, you can use HLS to design modules that fit within the user logic boxes in the OpenNIC. However, HLS does not generate the streaming interfaces that the OpenNIC expects, so you will have to create your own RTL wrappers to connect the HLS module to these interfaces.

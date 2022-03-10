@@ -19,15 +19,17 @@ The goal of OpenNIC is to enable fast prototyping of hardware-accelerated
 network-attached applications.  It is not a fully-fledged SmartNIC solution.
 
 The latest version of OpenNIC is 1.0, which uses OpenNIC shell version 1.0 and
-OpenNIC driver version 1.0.
+OpenNIC driver version 1.0 or OpenNIC DPDK driver version 1.0.
 
 ## Repo Structure
 
 This repository serves as the release point for the OpenNIC project, which
-consists of two components, [OpenNIC
-shell](https://github.com/Xilinx/open-nic-shell.git) and [OpenNIC
-driver](https://github.com/Xilinx/open-nic-driver.git).  A released version of
-OpenNIC pins to a commit in the `master` branch of each component repository.
+consists of three components:
+   - [OpenNIC shell](https://github.com/Xilinx/open-nic-shell.git),
+   - [OpenNIC driver](https://github.com/Xilinx/open-nic-driver.git), and
+   - [OpenNIC DPDK](https://github.com/Xilinx/open-nic-dpdk.git).
+
+A released version of OpenNIC pins to a commit in the `master` branch of each component repository.
 
 A Bash script `script/checkout.sh` is provided to checkout a specific version of
 OpenNIC.  It takes two arguments, the root directory for the cloned repositories
