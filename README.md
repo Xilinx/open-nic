@@ -2,8 +2,8 @@
 
 The OpenNIC project provides an FPGA-based NIC platform for the open source
 community.  It consists of two components, a NIC shell and a Linux kernel
-driver.  The NIC shell is an RTL project for Xilinx FPGA, and currently targets
-several of the Xilinx Alveo board family.  It delivers a NIC implementation
+driver.  The NIC shell is an RTL project for AMD-Xilinx FPGA, and currently targets
+several of the AMD-Xilinx Alveo board family.  It delivers a NIC implementation
 supporting up to four PCI-e physical functions (PFs) and two 100Gbps Ethernet
 ports.  The shell is equipped with well-defined data and control interfaces and
 is designed to enable easy integration of user logic into the shell.  A block
@@ -55,9 +55,9 @@ has been prepared to help in answering questions regarding this project.  The FA
 
 # Copyright Notice and Disclaimer
 
-This file contains confidential and proprietary information of Xilinx, Inc. and
-is protected under U.S. and international copyright and other intellectual
-property laws.
+This file contains confidential and proprietary information of Advanced Micro 
+Devices-Xilinx and is protected under U.S. and international copyright and other 
+intellectual property laws.
 
 DISCLAIMER
 
