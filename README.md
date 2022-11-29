@@ -3,12 +3,12 @@
 The OpenNIC project provides an FPGA-based NIC platform for the open source
 community.  It consists of multiple components: a NIC shell, a Linux kernel
 driver, and a DPDK driver.  The NIC shell contains the RTL sources and design 
-files for targetting several of the AMD-Xilinx Alveo boards featuring UltraScale+ FPGAs.  
-
-It delivers a NIC implementation supporting up to four PCI-e physical functions (PFs) and two 100Gbps Ethernet
-ports.  The shell is equipped with well-defined data and control interfaces and
-is designed to enable easy integration of user logic into the shell.  A block
-diagram of the OpenNIC shell follows:
+files for targetting several of the AMD-Xilinx Alveo boards featuring UltraScale+ 
+FPGAs.  It delivers a NIC implementation supporting up to four PCI-e physical 
+functions (PFs) and two 100Gbps Ethernet ports.  The shell is equipped with 
+well-defined data and control interfaces and is designed to enable easy 
+integration of user logic into the shell.  A block diagram of the OpenNIC 
+shell follows:
 
 ![](open_nic_shell.png)
 
