@@ -2,7 +2,7 @@
 
 The OpenNIC project provides an FPGA-based NIC platform for the open source
 community.  It consists of two components, a NIC shell and a Linux kernel
-driver.  The NIC shell is an RTL project for AMD-Xilinx FPGA, and currently targets
+driver.  The OpenNIC shell is an RTL project for AMD-Xilinx FPGAs that currently targets
 several of the AMD-Xilinx Alveo board family.  It delivers a NIC implementation
 supporting up to four PCI-e physical functions (PFs) and two 100Gbps Ethernet
 ports.  The shell is equipped with well-defined data and control interfaces and
