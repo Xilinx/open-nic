@@ -79,7 +79,7 @@ OpenNIC, on the other hand, is intended for networking research and experimentat
 ### Can I use P4 with OpenNIC?
 Yes.  The Xilinx Vitis Networking P4 (VitisNetP4 for short, formerly known as SDNet) compiler can be used to generate an IP block with standard AXI interfaces that can be
 placed in either user box of the OpenNIC shell.  Community work is currently under way to provide a "big green button" flow, similar to the longstanding P4->NetFPGA flow, to
-simplify the process for using OpenNIC as a P4 target.
+simplify the process for using OpenNIC as a P4 target.  The "big green button" flow for P4 is available on the ESnet SmartNIC project (https://github.com/esnet/esnet-smartnic-hw#readme), which is an extended design that is based on OpenNIC.
 
 ### How do I migrate from an older version of OpenNIC to version 1.0?
 The main differences between the older versions (provided for early access purposes) and
